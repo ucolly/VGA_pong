@@ -51,21 +51,23 @@ ARCHITECTURE rtl OF vga IS
     SIGNAL addr_y_en : STD_LOGIC;
     SIGNAL vga_vsync_refresh : STD_LOGIC;
     
-    SIGNAL int_vsync : STD_LOGIC;
-    SIGNAL int_hsync : STD_LOGIC;
+    SIGNAL int_vsync, int_vsync_dly : STD_LOGIC;
+    SIGNAL int_hsync, int_hsync_dly : STD_LOGIC;
 BEGIN
      
-   VRAM_read_Proc : PROCESS (addr_x_en, addr_y_en, vga_hsync_cnt, vga_vsync_cnt)
+   VRAM_read_Proc : PROCESS (clk_vga)
    BEGIN
-       IF addr_x_en = '1' AND addr_y_en = '1' THEN
-           addr_x <= STD_LOGIC_VECTOR(TO_UNSIGNED(vga_hsync_cnt, 11));
-           addr_y <= STD_LOGIC_VECTOR(TO_UNSIGNED(vga_vsync_cnt, 11));
-           addr_en <= '1';
-       ELSE
-           addr_x <= (OTHERS => '0');
-           addr_y <= (OTHERS => '0');
-           addr_en <= '0';
-       END IF;
+       IF rising_edge(clk_vga) THEN
+           IF addr_x_en = '1' AND addr_y_en = '1' THEN
+               addr_x <= STD_LOGIC_VECTOR(TO_UNSIGNED(vga_hsync_cnt, 11));
+               addr_y <= STD_LOGIC_VECTOR(TO_UNSIGNED(vga_vsync_cnt, 11));
+               addr_en <= '1';
+           ELSE
+               addr_x <= (OTHERS => '0');
+               addr_y <= (OTHERS => '0');
+               addr_en <= '0';
+           END IF;
+        END IF;
    END PROCESS VRAM_read_Proc;
   
    
@@ -84,9 +86,12 @@ BEGIN
          ELSE
 			vga_hsync_cnt <= vga_hsync_cnt + 1;
 			
-			-- delay hsync and vsync by 1 clock cycle, because pixel data read out needs 1 cycle
-			vsync <= int_vsync; 
-			hsync <= int_hsync;
+			-- delay hsync and vsync by 2 clock cycle, because pixel data read out needs 1 cycle
+			int_vsync_dly <= int_vsync; 
+			int_hsync_dly <= int_hsync;
+			
+			vsync <= int_vsync_dly;
+			hsync <= int_hsync_dly;
 			
 			rgb <= vga_data;
 			
@@ -119,8 +124,10 @@ BEGIN
 			END CASE;
 			
 			IF vga_vsync_refresh = '1' THEN
+			
 			    vga_vsync_refresh <= '0';
 			    vga_vsync_cnt <= vga_vsync_cnt + 1;
+			    
                 CASE VSYNC_VGA_STATE IS
                 WHEN VSYNC_FP => 	
                     IF vga_vsync_cnt = VSYNC_FP_CONST-1 THEN 

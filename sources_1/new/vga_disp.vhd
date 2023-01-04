@@ -34,11 +34,11 @@ ARCHITECTURE rtl OF vga_disp IS
     SIGNAL sync_rl_down, sync_rl_up : STD_LOGIC_VECTOR(1 DOWNTO 0);
     SIGNAL sync_rr_down, sync_rr_up : STD_LOGIC_VECTOR(1 DOWNTO 0);
     
-    SIGNAL racket_left_pos : INTEGER RANGE -racket_speed TO 1079 := racket_start_pos;
-    SIGNAL racket_right_pos : INTEGER RANGE -racket_speed TO 1079 := racket_start_pos;
+    SIGNAL racket_left_pos, racket_left_pos_dly : INTEGER RANGE -racket_speed TO 1079 := racket_start_pos;
+    SIGNAL racket_right_pos, racket_right_pos_dly : INTEGER RANGE -racket_speed TO 1079 := racket_start_pos;
     
-    SIGNAL ball_pos_x : INTEGER RANGE -ball_speed TO 1919 := ball_start_pos_x;
-    SIGNAL ball_pos_y : INTEGER RANGE -ball_speed TO 1919 := ball_start_pos_y;
+    SIGNAL ball_pos_x, ball_pos_x_dly : INTEGER RANGE -ball_speed TO 1919 := ball_start_pos_x;
+    SIGNAL ball_pos_y, ball_pos_y_dly : INTEGER RANGE -ball_speed TO 1919 := ball_start_pos_y;
     
     SIGNAL vga_pos_x : INTEGER;
     SIGNAL vga_pos_y : INTEGER; 
@@ -61,6 +61,13 @@ BEGIN
                 sync_rr_down(0) <= rr_down;     sync_rr_down(1) <= sync_rr_down(0);
                 sync_rr_up(0)   <= rr_up;       sync_rr_up(1)   <= sync_rr_up(0);
                 
+                -- Pipeline stages for timing optimizations
+                racket_right_pos_dly <= racket_right_pos;
+                racket_left_pos_dly  <= racket_left_pos;
+                
+                ball_pos_y_dly <= ball_pos_y;
+                ball_pos_x_dly <= ball_pos_x;
+                
                 vsync_dly <= vsync;
                 
                 -- Update Image at VSYNC pos edge
@@ -69,13 +76,13 @@ BEGIN
                     -- Start racket movement and ball movement depenend on push buttons
                     IF sync_rl_down(1) = '1' AND sync_rl_up(1) = '1' THEN
                         racket_left_pos <= racket_left_pos;
-                    ELSIF sync_rl_down(1) = '1' AND racket_left_pos+racket_size_y <= 1079 THEN
+                    ELSIF sync_rl_down(1) = '1' AND racket_left_pos_dly + racket_size_y <= 1079 THEN
                         racket_left_pos <= racket_left_pos + racket_speed;
                         
                         IF BALL_STATE = IDLE THEN 
                             BALL_STATE <= LEFT_DOWN; 
                         END IF;
-                    ELSIF sync_rl_up(1) = '1' AND racket_left_pos >= 0 THEN
+                    ELSIF sync_rl_up(1) = '1' AND racket_left_pos_dly >= 0 THEN
                         racket_left_pos <= racket_left_pos - racket_speed;
                         
                         IF BALL_STATE = IDLE THEN 
@@ -85,13 +92,13 @@ BEGIN
                     
                     IF sync_rr_down(1) = '1' AND sync_rr_up(1) = '1' THEN
                         racket_right_pos <= racket_right_pos;
-                    ELSIF sync_rr_down(1) = '1' AND racket_right_pos+racket_size_y <= 1079 THEN
+                    ELSIF sync_rr_down(1) = '1' AND racket_right_pos_dly + racket_size_y <= 1079 THEN
                         racket_right_pos <= racket_right_pos + racket_speed;
                         
                         IF BALL_STATE = IDLE THEN 
                             BALL_STATE <= RIGHT_DOWN; 
                         END IF;
-                    ELSIF sync_rr_up(1) = '1' AND racket_right_pos >= 0 THEN
+                    ELSIF sync_rr_up(1) = '1' AND racket_right_pos_dly >= 0 THEN
                         racket_right_pos <= racket_right_pos - racket_speed;
                         
                         IF BALL_STATE = IDLE THEN 
@@ -119,13 +126,13 @@ BEGIN
                     END CASE;
                     
                     -- check collision with wall
-                    IF ball_pos_y <= 0 THEN
+                    IF ball_pos_y_dly <= 0 THEN
                         IF BALL_STATE = LEFT_UP THEN
                             BALL_STATE <= LEFT_DOWN;
                         ELSIF BALL_STATE = RIGHT_UP THEN
                             BALL_STATE <= RIGHT_DOWN;
                         END IF;      
-                    ELSIF ball_pos_y + ball_size >= 1079 THEN
+                    ELSIF ball_pos_y_dly + ball_size >= 1079 THEN
                         IF BALL_STATE = LEFT_DOWN THEN
                             BALL_STATE <= LEFT_UP;
                         ELSIF BALL_STATE = RIGHT_DOWN THEN
@@ -134,13 +141,13 @@ BEGIN
                     END IF;
                     
                     -- check collision with left racket
-                    IF ball_pos_x <= racket_size_x AND ball_pos_y + ball_size >= racket_left_pos AND ball_pos_y <= racket_left_pos + racket_size_y  THEN
+                    IF ball_pos_x_dly <= racket_size_x AND ball_pos_y_dly + ball_size >= racket_left_pos_dly AND ball_pos_y_dly <= racket_left_pos_dly + racket_size_y  THEN
                         IF BALL_STATE = LEFT_UP THEN
                             BALL_STATE <= RIGHT_UP;
                         ELSIF BALL_STATE = LEFT_DOWN THEN
                             BALL_STATE <= RIGHT_DOWN;
                         END IF;      
-                    ELSIF ball_pos_x >= 1919-racket_size_x AND ball_pos_y + ball_size >= racket_right_pos AND ball_pos_y <= racket_right_pos + racket_size_y  THEN
+                    ELSIF ball_pos_x_dly >= 1919-racket_size_x AND ball_pos_y_dly + ball_size >= racket_right_pos_dly AND ball_pos_y_dly <= racket_right_pos_dly + racket_size_y  THEN
                         IF BALL_STATE = RIGHT_UP THEN
                             BALL_STATE <= LEFT_UP;
                         ELSIF BALL_STATE = RIGHT_DOWN THEN
@@ -149,7 +156,7 @@ BEGIN
                     END IF;
                     
                     -- check collision with goal
-                    IF ball_pos_x + ball_size >= 1919 OR ball_pos_x <= 0 THEN
+                    IF ball_pos_x_dly + ball_size >= 1919 OR ball_pos_x_dly <= 0 THEN
                         BALL_STATE <= IDLE;
                     END IF;
                 END IF;
@@ -168,9 +175,9 @@ BEGIN
                 ELSIF vga_pos_x >= ball_pos_x AND vga_pos_x <= ball_pos_x + ball_size AND vga_pos_y >= ball_pos_y AND vga_pos_y <= ball_pos_y + ball_size THEN
                     vga_data <= b"1111_1111_1111"; -- draw white ball
                 ELSIF vga_pos_x >= 0 AND vga_pos_x <= racket_size_x AND vga_pos_y >= racket_left_pos AND vga_pos_y <= racket_left_pos + racket_size_y THEN 
-                    vga_data <= b"0000_1111_0000"; -- draw white left racket
+                    vga_data <= b"1111_1111_1111"; -- draw white left racket
                 ELSIF vga_pos_x >= 1919-racket_size_x AND vga_pos_x <= 1919 AND vga_pos_y >= racket_right_pos AND vga_pos_y <= racket_right_pos + racket_size_y THEN 
-                    vga_data <= b"0000_0000_1111"; -- draw white right racket        
+                    vga_data <= b"1111_1111_1111"; -- draw white right racket        
                 END IF;
             END IF;
         END IF;
