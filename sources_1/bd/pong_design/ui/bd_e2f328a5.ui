@@ -1,0 +1,57 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_Layers":"/sys_clock_1:true|/rst_clk_wiz_148M_peripheral_reset:true|/clk_wiz_clk_out1:true|/reset_0_1:true|",
+   "Default View_ScaleFactor":"0.871174",
+   "Default View_TopLeft":"-101,-91",
+   "Display-PortTypeClock":"true",
+   "Display-PortTypeOthers":"true",
+   "Display-PortTypeReset":"true",
+   "ExpandedHierarchyInLayout":"",
+   "Grouping and No Loops_ScaleFactor":"1.0",
+   "Grouping and No Loops_TopLeft":"-422,-32",
+   "Interfaces View_Layers":"/sys_clock_1:false|/rst_clk_wiz_148M_peripheral_reset:false|/clk_wiz_clk_out1:false|/reset_0_1:false|",
+   "Interfaces View_ScaleFactor":"1.0",
+   "Interfaces View_TopLeft":"-567,-247",
+   "No Loops_ScaleFactor":"1.0",
+   "No Loops_TopLeft":"-422,-32",
+   "Reduced Jogs_ScaleFactor":"1.0",
+   "Reduced Jogs_TopLeft":"-412,-37",
+   "guistr":"# # String gsaved with Nlview 7.0r6  2020-01-29 bk=1.5227 VDI=41 GEI=36 GUI=JA:10.0 non-TLS-threadsafe
+#  -string -flagsOSRD
+preplace port port-id_vsync -pg 1 -lvl 5 -x 1260 -y 100 -defaultsOSRD
+preplace port port-id_hsync -pg 1 -lvl 5 -x 1260 -y 120 -defaultsOSRD
+preplace port port-id_rl_down -pg 1 -lvl 0 -x -30 -y 200 -defaultsOSRD
+preplace port port-id_rl_up -pg 1 -lvl 0 -x -30 -y 220 -defaultsOSRD
+preplace port port-id_rr_down -pg 1 -lvl 0 -x -30 -y 240 -defaultsOSRD
+preplace port port-id_rr_up -pg 1 -lvl 0 -x -30 -y 260 -defaultsOSRD
+preplace port port-id_clk -pg 1 -lvl 0 -x -30 -y 0 -defaultsOSRD
+preplace port port-id_reset -pg 1 -lvl 0 -x -30 -y 20 -defaultsOSRD
+preplace portBus rgb -pg 1 -lvl 5 -x 1260 -y 140 -defaultsOSRD
+preplace inst clk_wiz -pg 1 -lvl 1 -x 110 -y 420 -defaultsOSRD
+preplace inst rst_clk_wiz_148M -pg 1 -lvl 2 -x 390 -y 370 -defaultsOSRD
+preplace inst vga_disp -pg 1 -lvl 3 -x 760 -y 240 -defaultsOSRD
+preplace inst vga_driver -pg 1 -lvl 4 -x 1060 -y 100 -defaultsOSRD
+preplace netloc clk_1 1 0 1 0 0n
+preplace netloc clk_wiz_clk_out 1 1 3 200 150 560 80 NJ
+preplace netloc clk_wiz_locked 1 1 1 210 410n
+preplace netloc reset_1 1 0 2 NJ 20 210
+preplace netloc rl_down_1 1 0 3 NJ 200 NJ 200 580J
+preplace netloc rl_up_1 1 0 3 -10J 210 NJ 210 NJ
+preplace netloc rr_down_1 1 0 3 10J 230 NJ 230 NJ
+preplace netloc rr_up_1 1 0 3 10J 250 NJ 250 NJ
+preplace netloc rst_clk_wiz_148M_peripheral_reset 1 2 2 570 90 900J
+preplace netloc vga_addr_en 1 2 3 610 390 NJ 390 1200
+preplace netloc vga_addr_x 1 2 3 580 400 NJ 400 1220
+preplace netloc vga_addr_y 1 2 3 590 410 NJ 410 1210
+preplace netloc vga_disp_0_vga_data 1 3 1 900 120n
+preplace netloc vga_hsync 1 4 1 1230J 120n
+preplace netloc vga_rgb 1 4 1 1230J 140n
+preplace netloc vga_vsync 1 2 3 600 -10 NJ -10 1230
+levelinfo -pg 1 -30 110 390 760 1060 1260
+pagesize -pg 1 -db -bbox -sgen -130 -20 1370 490
+"
+}
+{
+   "da_board_cnt":"6",
+   "da_clkrst_cnt":"2"
+}

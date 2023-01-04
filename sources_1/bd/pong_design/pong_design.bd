@@ -1,0 +1,391 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0xE4E89B65E950A5C8",
+      "device": "xc7a35tcpg236-1",
+      "gen_directory": "../../../../VGA.gen/sources_1/bd/pong_design",
+      "name": "pong_design",
+      "rev_ctrl_bd_flag": "RevCtrlBdOff",
+      "synth_flow_mode": "None",
+      "tool_version": "2022.2",
+      "validated": "true"
+    },
+    "design_tree": {
+      "clk_wiz": "",
+      "rst_clk_wiz_148M": "",
+      "vga_disp": "",
+      "vga_driver": ""
+    },
+    "ports": {
+      "vsync": {
+        "type": "data",
+        "direction": "O",
+        "parameters": {
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          }
+        }
+      },
+      "hsync": {
+        "direction": "O"
+      },
+      "rgb": {
+        "direction": "O",
+        "left": "11",
+        "right": "0"
+      },
+      "rl_down": {
+        "direction": "I"
+      },
+      "rl_up": {
+        "direction": "I"
+      },
+      "rr_down": {
+        "direction": "I"
+      },
+      "rr_up": {
+        "direction": "I"
+      },
+      "clk": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "pong_design_sys_clock"
+          },
+          "FREQ_HZ": {
+            "value": "100000000"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
+      },
+      "reset": {
+        "type": "rst",
+        "direction": "I",
+        "parameters": {
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "POLARITY": {
+            "value": "ACTIVE_HIGH"
+          }
+        }
+      }
+    },
+    "components": {
+      "clk_wiz": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "xci_name": "pong_design_clk_wiz_0_0",
+        "xci_path": "ip\\pong_design_clk_wiz_0_0\\pong_design_clk_wiz_0_0.xci",
+        "inst_hier_path": "clk_wiz",
+        "parameters": {
+          "CLKOUT1_JITTER": {
+            "value": "217.614"
+          },
+          "CLKOUT1_PHASE_ERROR": {
+            "value": "245.344"
+          },
+          "CLKOUT1_REQUESTED_OUT_FREQ": {
+            "value": "148.5"
+          },
+          "CLK_IN1_BOARD_INTERFACE": {
+            "value": "Custom"
+          },
+          "MMCM_CLKFBOUT_MULT_F": {
+            "value": "37.125"
+          },
+          "MMCM_CLKOUT0_DIVIDE_F": {
+            "value": "6.250"
+          },
+          "MMCM_DIVCLK_DIVIDE": {
+            "value": "4"
+          },
+          "RESET_BOARD_INTERFACE": {
+            "value": "Custom"
+          },
+          "USE_BOARD_FLOW": {
+            "value": "true"
+          },
+          "USE_RESET": {
+            "value": "false"
+          }
+        }
+      },
+      "rst_clk_wiz_148M": {
+        "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
+        "xci_name": "pong_design_rst_clk_wiz_148M_0",
+        "xci_path": "ip\\pong_design_rst_clk_wiz_148M_0\\pong_design_rst_clk_wiz_148M_0.xci",
+        "inst_hier_path": "rst_clk_wiz_148M",
+        "parameters": {
+          "RESET_BOARD_INTERFACE": {
+            "value": "Custom"
+          },
+          "USE_BOARD_FLOW": {
+            "value": "true"
+          }
+        }
+      },
+      "vga_disp": {
+        "vlnv": "xilinx.com:module_ref:vga_disp:1.0",
+        "xci_name": "pong_design_vga_disp_0_0",
+        "xci_path": "ip\\pong_design_vga_disp_0_0\\pong_design_vga_disp_0_0.xci",
+        "inst_hier_path": "vga_disp",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "vga_disp",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "rst",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "148500000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "rst": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "rl_down": {
+            "direction": "I"
+          },
+          "rl_up": {
+            "direction": "I"
+          },
+          "rr_down": {
+            "direction": "I"
+          },
+          "rr_up": {
+            "direction": "I"
+          },
+          "addr_x": {
+            "direction": "I",
+            "left": "10",
+            "right": "0"
+          },
+          "addr_y": {
+            "direction": "I",
+            "left": "10",
+            "right": "0"
+          },
+          "addr_en": {
+            "direction": "I"
+          },
+          "vsync": {
+            "direction": "I"
+          },
+          "vga_data": {
+            "direction": "O",
+            "left": "11",
+            "right": "0"
+          }
+        }
+      },
+      "vga_driver": {
+        "vlnv": "xilinx.com:module_ref:vga:1.0",
+        "xci_name": "pong_design_vga_0_0",
+        "xci_path": "ip\\pong_design_vga_0_0\\pong_design_vga_0_0.xci",
+        "inst_hier_path": "vga_driver",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "vga",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk_vga": {
+            "direction": "I",
+            "parameters": {
+              "FREQ_HZ": {
+                "value": "148500000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "rst_vga": {
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "vga_data": {
+            "direction": "I",
+            "left": "11",
+            "right": "0"
+          },
+          "addr_x": {
+            "direction": "O",
+            "left": "10",
+            "right": "0"
+          },
+          "addr_y": {
+            "direction": "O",
+            "left": "10",
+            "right": "0"
+          },
+          "addr_en": {
+            "direction": "O"
+          },
+          "vsync": {
+            "direction": "O"
+          },
+          "hsync": {
+            "direction": "O"
+          },
+          "rgb": {
+            "direction": "O",
+            "left": "11",
+            "right": "0"
+          }
+        }
+      }
+    },
+    "nets": {
+      "clk_1": {
+        "ports": [
+          "clk",
+          "clk_wiz/clk_in1"
+        ]
+      },
+      "clk_wiz_clk_out": {
+        "ports": [
+          "clk_wiz/clk_out1",
+          "rst_clk_wiz_148M/slowest_sync_clk",
+          "vga_disp/clk",
+          "vga_driver/clk_vga"
+        ]
+      },
+      "clk_wiz_locked": {
+        "ports": [
+          "clk_wiz/locked",
+          "rst_clk_wiz_148M/dcm_locked"
+        ]
+      },
+      "reset_1": {
+        "ports": [
+          "reset",
+          "rst_clk_wiz_148M/ext_reset_in"
+        ]
+      },
+      "rl_down_1": {
+        "ports": [
+          "rl_down",
+          "vga_disp/rl_down"
+        ]
+      },
+      "rl_up_1": {
+        "ports": [
+          "rl_up",
+          "vga_disp/rl_up"
+        ]
+      },
+      "rr_down_1": {
+        "ports": [
+          "rr_down",
+          "vga_disp/rr_down"
+        ]
+      },
+      "rr_up_1": {
+        "ports": [
+          "rr_up",
+          "vga_disp/rr_up"
+        ]
+      },
+      "rst_clk_wiz_148M_peripheral_reset": {
+        "ports": [
+          "rst_clk_wiz_148M/peripheral_reset",
+          "vga_disp/rst",
+          "vga_driver/rst_vga"
+        ]
+      },
+      "vga_addr_en": {
+        "ports": [
+          "vga_driver/addr_en",
+          "vga_disp/addr_en"
+        ]
+      },
+      "vga_addr_x": {
+        "ports": [
+          "vga_driver/addr_x",
+          "vga_disp/addr_x"
+        ]
+      },
+      "vga_addr_y": {
+        "ports": [
+          "vga_driver/addr_y",
+          "vga_disp/addr_y"
+        ]
+      },
+      "vga_disp_0_vga_data": {
+        "ports": [
+          "vga_disp/vga_data",
+          "vga_driver/vga_data"
+        ]
+      },
+      "vga_hsync": {
+        "ports": [
+          "vga_driver/hsync",
+          "hsync"
+        ]
+      },
+      "vga_rgb": {
+        "ports": [
+          "vga_driver/rgb",
+          "rgb"
+        ]
+      },
+      "vga_vsync": {
+        "ports": [
+          "vga_driver/vsync",
+          "vsync",
+          "vga_disp/vsync"
+        ]
+      }
+    }
+  }
+}
